@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuenta atrás</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        #countdown {
+            font-size: 10rem;
+            text-align: center;
+        }
+        .center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        #gif {
+            display: none;
+            max-width: 100%;
+            max-height: 100%;
+        }
+        #message {
+            display: none;
+            text-align: center;
+        }
+        #message h1 {
+            font-size: 4rem;
+            margin: 0;
+        }
+        #message h2 {
+            font-size: 2rem;
+            margin-top: 0.5rem;
+        }
+        .repeated-gif {
+            position: absolute;
+            animation: move 10s linear infinite;
+        }
+        @keyframes move {
+            0% {transform: translate(0, 0);}
+            100% {transform: translate(-200px, -200px);}
+        }
+    </style>
+</head>
+<body>
+    <div id="countdown" class="center">10</div>
+    <img id="gif" class="center" src="https://media.giphy.com/media/3rgXBOP3Udo2syUGsM/giphy.gif" alt="GIF grande">
+    <div id="message">
+        <h1>¡FELICIDADES!</h1>
+        <h2>cada día más cerca de los 30</h2>
+    </div>
+
+    <script>
+        const countdownElement = document.getElementById('countdown');
+        const gifElement = document.getElementById('gif');
+        const messageElement = document.getElementById('message');
+
+        // Cuenta atrás de 10 a 0 rápidamente
+        let counter = 10;
+        const countdownInterval = setInterval(() => {
+            countdownElement.textContent = counter;
+            counter--;
+            if (counter < 0) {
+                clearInterval(countdownInterval);
+                countdownElement.style.display = 'none'; // Ocultar cuenta atrás
+                gifElement.style.display = 'block'; // Mostrar el primer GIF
+
+                // Mostrar mensaje y GIFs después de 2 segundos
+                setTimeout(() => {
+                    gifElement.style.display = 'none';
+                    messageElement.style.display = 'block';
+                    createRepeatedGifs();
+                }, 2000);
+            }
+        }, 100); // Cambia cada 0.1 segundos
+
+        // Crear GIFs repetidos por la pantalla
+        function createRepeatedGifs() {
+            for (let i = 0; i < 10; i++) {
+                const repeatedGif = document.createElement('img');
+                repeatedGif.src = "https://media.giphy.com/media/6gT5hWNOZxkVq/giphy.gif";
+                repeatedGif.className = "repeated-gif";
+                repeatedGif.style.top = `${Math.random() * 100}vh`;
+                repeatedGif.style.left = `${Math.random() * 100}vw`;
+                repeatedGif.style.width = `${Math.random() * 100 + 50}px`;
+                document.body.appendChild(repeatedGif);
+            }
+        }
+    </script>
+</body>
+</html>
